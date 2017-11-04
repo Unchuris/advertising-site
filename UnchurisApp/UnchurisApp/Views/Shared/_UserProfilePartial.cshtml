@@ -1,0 +1,16 @@
+﻿@model User
+
+<div id="advertisements" class="panel left">
+    <h1>Advertisement Profile</h1>
+    <div class="advertisementWrapper">
+        <img class="avatar" src="http://www.gravatar.com/avatar/@Model.Profile.GetEmailHash()">
+        <span class="name">
+            @Html.RouteLink(Model.Profile.Name, "UserDefault", new { controller = "user", username = Model.Username, action = "index" })
+        </span>@@@Model.Username
+        <p>
+            @Model.Advertisements.Count @Html.ActionLink("Advertisements", "index", new { controller = "user", username = Model.Username })<br>
+            @Model.Profile.Bio
+        </p>
+
+    </div>
+</div>
