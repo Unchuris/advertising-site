@@ -47,9 +47,30 @@ namespace UnchurisApp.Services {
           .OrderByDescending(r => r.DateCreated);
     }
 
+    public void Update(Advertisement model) {
+
+      var advetisement = new Advertisement() {
+        Id = model.Id,
+        AuthorId = model.AuthorId,
+        Author = model.Author,
+        DateCreated = model.DateCreated,
+        Text = model.Text,
+        Title = model.Title,
+        Image = model.Image
+      };
+
+      _advertisements.Update(advetisement);
+
+      _context.SaveChanges();
+    }
+
     public IEnumerable<Advertisement> GetTimelineFor(int userId) {
       return _advertisements.FindAll(r => r.AuthorId == userId)
           .OrderByDescending(r => r.DateCreated);
+    }
+
+    public Advertisement GetItemByID(int userId, int itemId) {
+      return _advertisements.Find(r => (r.AuthorId == userId) && (r.Id == itemId));
     }
   }
 }

@@ -22,7 +22,13 @@ namespace UnchurisApp
           name: "AccountDefault",
           url: "account/{action}",
           defaults: new { controller = "account" }
-      ); 
+      );
+
+      routes.MapRoute(
+          name: "Advertisement",
+          url: "advertisement/{action}/{id}",
+          defaults: new { controller = "advertisement", action = "Index", id = "a" }
+      );
 
       routes.MapRoute(
           name: "Create",

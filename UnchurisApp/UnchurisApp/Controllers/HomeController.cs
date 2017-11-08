@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using UnchurisApp.Models;
 
 namespace UnchurisApp.Controllers {
   
@@ -21,14 +22,14 @@ namespace UnchurisApp.Controllers {
 
       return View("Timeline", timeline);
     }
+
     public ActionResult Profiles() {
       var users = Users.All(true);
-
       return View(users);
     }
+
     public ActionResult AdvertisementsAllUsers() {
       var advertisements = Advertisements.All(true).ToArray();
-
       return View(advertisements);
     }
 
