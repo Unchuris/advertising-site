@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Web;
+using System.Linq.Expressions;
 
 namespace UnchurisApp.Services {
   public class AdvertisementService : IAdvertisementService {
@@ -44,6 +45,11 @@ namespace UnchurisApp.Services {
 
     public IEnumerable<Advertisement> All(bool includeAdvertisement) {
       return _advertisements.All(includeAdvertisement)
+          .OrderByDescending(r => r.DateCreated);
+    }
+
+    public IEnumerable<Advertisement> Search(Expression<Func<Advertisement, bool>> predicate) {
+      return _advertisements.FindAll(predicate)
           .OrderByDescending(r => r.DateCreated);
     }
 

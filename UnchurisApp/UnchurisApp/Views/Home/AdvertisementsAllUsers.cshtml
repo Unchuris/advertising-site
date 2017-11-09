@@ -4,6 +4,13 @@
   ViewBag.Title = "AdvertisementsAllUsers";
 }
 
+<form asp-controller="Home" asp-action="AdvertisementsAllUsers">
+    <p>
+        Title: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 @section LeftPanel {
     @if (Model.Any()) {
         foreach (var advertisement in Model) {
