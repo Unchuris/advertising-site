@@ -26,7 +26,7 @@ namespace UnchurisApp.Services {
         Bio = model.Bio,
         Email = model.Email,
         Name = model.Name,
-        WebsiteUrl = model.Website
+        Phone = model.Phone
       };
 
       _profiles.Update(profile);

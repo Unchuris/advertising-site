@@ -23,7 +23,7 @@ namespace UnchurisApp.Controllers {
         Email = profile.Email,
         Id = profile.Id,
         Name = profile.Name,
-        Website = profile.WebsiteUrl
+        Phone = profile.Phone
       });
     }
 

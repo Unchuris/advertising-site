@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace UnchurisApp.ViewModel {
 
@@ -16,8 +12,8 @@ namespace UnchurisApp.ViewModel {
     [Required(ErrorMessage = "Please enter your name")]
     public string Name { get; set; }
 
-    [Url(ErrorMessage = "Please enter a valid URL")]
-    public string Website { get; set; }
+    [Phone(ErrorMessage = "Please enter a valid Phone")]
+    public string Phone { get; set; }
 
     [MaxLength(140, ErrorMessage = "Bio can only be {0} characters.")]
     public string Bio { get; set; }
