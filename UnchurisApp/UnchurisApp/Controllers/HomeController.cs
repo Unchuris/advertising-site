@@ -28,10 +28,13 @@ namespace UnchurisApp.Controllers {
       return View(users);
     }
 
-    public ActionResult AdvertisementsAllUsers(string searchString) {
+    public ActionResult AdvertisementsAllUsers(string title, string text, string author) {
       Advertisement[] advertisements = null;
-      advertisements = !String.IsNullOrEmpty(searchString) ? 
-        Advertisements.Search(s => s.Title.Contains(searchString)).ToArray() : 
+      advertisements = !String.IsNullOrEmpty(title) || !String.IsNullOrEmpty(text) || !String.IsNullOrEmpty(author) ? 
+        Advertisements.Search(s => s.Title.Contains(title) 
+                                && s.Text.Contains(text)
+                                && s.Author.Profile.Name.Contains(author)
+                              ).ToArray() : 
         Advertisements.All(true).ToArray();
       return View(advertisements);
     }
