@@ -83,15 +83,6 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="React.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.Core.3.2.0\lib\net40\React.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="React.Web, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.Web.3.1.0\lib\net40\React.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="React.Web.Mvc4, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.Web.Mvc4.3.1.0\lib\net40\React.Web.Mvc4.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -122,9 +113,6 @@
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Optimization.React, Version=3.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Web.Optimization.React.3.2.0\lib\net40\System.Web.Optimization.React.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
@@ -162,27 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="gulpfile.js" />
     <Content Include="less.js" />
-    <Content Include="readme.txt" />
-    <Content Include="Scripts\localization\translationsObject.jsx" />
-    <Content Include="Scripts\pages\test2\style.css" />
-    <Content Include="Scripts\pages\test2\Test2.jsx" />
-    <Content Include="Scripts\pages\test1\Test1.jsx" />
-    <Content Include="Scripts\pages\test1\style.css" />
-    <Content Include="Scripts\reducers\root-reducer.js" />
-    <Content Include="Scripts\index.css" />
-    <Content Include="Scripts\stores\store.js" />
-    <Content Include="Scripts\utils\actionTypes.js" />
-    <Content Include="Scripts\utils\fetcher.js" />
-    <Content Include="Scripts\vendor\fonts.css" />
-    <Content Include="Scripts\vendor\normalize.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -234,7 +207,6 @@
     <Content Include="Views\web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="package.json" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Profiles.cshtml" />
     <Content Include="Views\Home\Timeline.cshtml" />
@@ -254,7 +226,6 @@
     <Content Include="Views\Shared\_EditAdvertisement.cshtml" />
     <Content Include="Views\Advertisement\Index.cshtml" />
     <Content Include="Views\Shared\_AdvertisementAll.cshtml" />
-    <Content Include="reactServerConfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -267,9 +238,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\index.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
