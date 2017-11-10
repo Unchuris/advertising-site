@@ -33,18 +33,18 @@ namespace UnchurisApp.Controllers {
       advertisements = !String.IsNullOrEmpty(title) || !String.IsNullOrEmpty(text) || !String.IsNullOrEmpty(author) ?
         Advertisements.Search(s => s.Title.Contains(title) && s.Text.Contains(text) && s.Author.Profile.Name.Contains(author)).ToArray() :
         Advertisements.All(true).ToArray();
-      var adv = new List<dynamic>();
+      var result = new List<dynamic>();
       dynamic rez = new ExpandoObject();
       foreach (var advertisement in advertisements) {
+        rez.Id = advertisement.Id;
         rez.Title = advertisement.Title;
         rez.Text = advertisement.Text;
-        rez.DateCreated = advertisement.DateCreated;
-        rez.Image = Convert.ToBase64String(advertisement.Image);
-        rez.Id = advertisement.Id;
         rez.Author = advertisement.Author.Profile.Name;
-        adv.Add(rez);
+        rez.Image = Convert.ToBase64String(advertisement.Image);
+        rez.DateCreated = advertisement.DateCreated;
+        result.Add(rez);
       }
-      ResponseData.WriteList(Response, "result", adv);
+      ResponseData.WriteList(Response, "result", result);
     }
 
     [HttpGet]
@@ -56,19 +56,25 @@ namespace UnchurisApp.Controllers {
     [HttpPost]
     [ChildActionOnly]
     //[ValidateAntiForgeryToken]
-    public ActionResult Create(CreateAdvertisementViewModel model, HttpPostedFileBase uploadImage) {
+    public void Create(CreateAdvertisementViewModel model, HttpPostedFileBase uploadImage) {
       if (ModelState.IsValid && uploadImage != null) {
         byte[] imageData = null;
-
         using (var binaryReader = new BinaryReader(uploadImage.InputStream)) {
           imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
         }
-        Advertisements.Create(Security.UserId, model.Text, model.Title, imageData);
-
-        Response.Redirect("/");
+        Advertisement advertisement = Advertisements.Create(Security.UserId, model.Text, model.Title, imageData);
+        dynamic rez = new ExpandoObject();
+        rez.Id = advertisement.Id;
+        rez.Title = advertisement.Title;
+        rez.Text = advertisement.Text;
+        rez.Author = advertisement.Author.Profile.Name;
+        rez.Image = Convert.ToBase64String(advertisement.Image);
+        rez.DateCreated = advertisement.DateCreated;
+        var result = new List<dynamic> {
+          rez
+        };
+        ResponseData.WriteList(Response, "result", result);
       }
-
-      return PartialView("_CreateAdvertisementPartial", model);
     }
 
   }
