@@ -14,18 +14,38 @@ namespace UnchurisApp.Controllers {
 
     public HomeController() : base() { }
 
-    public ActionResult Index() {
-      if (!Security.IsAuthenticated) {
-        return View("landing", new LoginSignupViewModel());
+    public void Index() {
+      if (Security.IsAuthenticated) {
+        var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
+        var result = new List<dynamic>();
+        dynamic rez = new ExpandoObject();
+        foreach (var advertisement in advertisements) {
+          rez.Id = advertisement.Id;
+          rez.Title = advertisement.Title;
+          rez.Text = advertisement.Text;
+          rez.Author = advertisement.Author.Profile.Name;
+          rez.Image = Convert.ToBase64String(advertisement.Image);
+          rez.DateCreated = advertisement.DateCreated;
+          result.Add(rez);
+        }
+        ResponseData.WriteList(Response, "result", result);
       }
-
-      var timeline = Advertisements.GetTimelineFor(Security.UserId).ToArray();
-      return View("Timeline", timeline);
     }
 
-    public ActionResult Profiles() {
+    public void Profiles() {
       var users = Users.All(true);
-      return View(users);
+      var result = new List<dynamic>();
+      dynamic rez = new ExpandoObject();
+      foreach (var user in users) {
+        rez.Id = user.Id;
+        rez.ProfileName = user.Profile.Name;
+        rez.Username = user.Username;
+        rez.AdvertisementsCount = user.Advertisements.Count;
+        rez.ProfileBio = user.Profile.Bio;
+        rez.DateCreated = user.DateCreated;
+        result.Add(rez);
+      }
+      ResponseData.WriteList(Response, "result", result);
     }
 
     public void AdvertisementsAllUsers(string title, string text, string author) {
@@ -76,6 +96,5 @@ namespace UnchurisApp.Controllers {
         ResponseData.WriteList(Response, "result", result);
       }
     }
-
   }
 }

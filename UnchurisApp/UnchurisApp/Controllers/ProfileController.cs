@@ -4,46 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UnchurisApp.Models;
+using System.Dynamic;
 
 namespace UnchurisApp.Controllers {
 
   public class ProfileController : AdvertisementControllerBase {
-    //
-    // GET: /Profile/
 
-    public ActionResult Index() {
-      if (!Security.IsAuthenticated) {
-        return RedirectToAction("Index", "Home");
-      }
-
+    public void Index() {
+      if (!Security.IsAuthenticated) return;
+    
       var profile = Profiles.GetBy(CurrentUser.UserProfileId);
 
-      return View(new EditProfileViewModel() {
-        Bio = profile.Bio,
-        Email = profile.Email,
-        Id = profile.Id,
-        Name = profile.Name,
-        Phone = profile.Phone
-      });
+      dynamic rez = new ExpandoObject();
+      rez.Id = profile.Id;
+      rez.Bio = profile.Bio;
+      rez.Email = profile.Email;
+      rez.Name = profile.Name;
+      rez.Phone = profile.Phone;
+      var result = new List<dynamic> {
+          rez
+        };
+      ResponseData.WriteList(Response, "result", result);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(EditProfileViewModel model) {
-      if (!Security.IsAuthenticated) {
-        return RedirectToAction("Index", "Home");
-      }
-
-      if (!ModelState.IsValid) {
-        return View("Index", model);
-      }
-
-      Profiles.Update(model);
-
-      return RedirectToAction("Index");
-
+    public void Edit(EditProfileViewModel model) {
+      if (!Security.IsAuthenticated || !ModelState.IsValid) return;
+      var result = new List<dynamic> {
+          Profiles.Update(model)
+      };
+      ResponseData.WriteList(Response, "result", result);
       throw new NotImplementedException();
     }
-
   }
 }

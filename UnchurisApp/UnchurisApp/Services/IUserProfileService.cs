@@ -9,6 +9,6 @@ using System.Web;
 namespace UnchurisApp.Services {
   public interface IUserProfileService {
     UserProfile GetBy(int id);
-    void Update(EditProfileViewModel model);
+    UserProfile Update(EditProfileViewModel model);
   }
 }

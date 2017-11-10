@@ -13,7 +13,7 @@ namespace UnchurisApp.Data {
 
     T Create(T t);
 
-    int Delete(T t);
+    T Delete(T t);
     int Delete(Expression<Func<T, bool>> predicate);
 
     T Find(params object[] keys);
@@ -22,6 +22,6 @@ namespace UnchurisApp.Data {
     IQueryable<T> FindAll(Expression<Func<T, bool>> predicate);
     IQueryable<T> FindAll(Expression<Func<T, bool>> predicate, int index, int size);
 
-    int Update(T t);
+    T Update(T t);
   }
 }

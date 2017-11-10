@@ -36,23 +36,23 @@ namespace UnchurisApp.Data {
     }
 
     public T Create(T t) {
-      DbSet.Add(t);
+      var rez = DbSet.Add(t);
 
       if (!ShareContext) {
         Context.SaveChanges();
       }
 
-      return t;
+      return rez;
     }
 
-    public int Delete(T t) {
-      DbSet.Remove(t);
+    public T Delete(T t) {
+      var rez = DbSet.Remove(t);
 
       if (!ShareContext) {
-        return Context.SaveChanges();
+        Context.SaveChanges();
       }
 
-      return 0;
+      return rez;
     }
 
     public int Delete(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {
@@ -98,18 +98,18 @@ namespace UnchurisApp.Data {
 
     }
 
-    public int Update(T t) {
+    public T Update(T t) {
       var entry = Context.Entry(t);
 
-      DbSet.Attach(t);
+      var rez = DbSet.Attach(t);
 
       entry.State = EntityState.Modified;
 
       if (!ShareContext) {
-        return Context.SaveChanges();
+        Context.SaveChanges();
       }
 
-      return 0;
+      return rez;
     }
 
     public void Dispose() {

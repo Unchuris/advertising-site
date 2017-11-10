@@ -53,7 +53,7 @@ namespace UnchurisApp.Services {
           .OrderByDescending(r => r.DateCreated);
     }
 
-    public void Update(Advertisement model) {
+    public Advertisement Update(Advertisement model) {
 
       var advetisement = new Advertisement() {
         Id = model.Id,
@@ -65,9 +65,11 @@ namespace UnchurisApp.Services {
         Image = model.Image
       };
 
-      _advertisements.Update(advetisement);
+      Advertisement rez = _advertisements.Update(advetisement);
 
       _context.SaveChanges();
+
+      return rez;
     }
 
     public IEnumerable<Advertisement> GetTimelineFor(int userId) {

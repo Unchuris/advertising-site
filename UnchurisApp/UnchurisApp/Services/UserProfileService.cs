@@ -20,7 +20,7 @@ namespace UnchurisApp.Services {
       return _profiles.Find(p => p.Id == id);
     }
 
-    public void Update(EditProfileViewModel model) {
+    public UserProfile Update(EditProfileViewModel model) {
       var profile = new UserProfile() {
         Id = model.Id,
         Bio = model.Bio,
@@ -29,9 +29,11 @@ namespace UnchurisApp.Services {
         Phone = model.Phone
       };
 
-      _profiles.Update(profile);
+      var rez = _profiles.Update(profile);
 
       _context.SaveChanges();
+
+      return rez;
     }
   }
 }
