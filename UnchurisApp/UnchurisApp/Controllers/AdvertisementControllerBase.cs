@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using UnchurisApp.Response;
 
 namespace UnchurisApp.Controllers {
   public class AdvertisementControllerBase : Controller {
@@ -16,6 +16,7 @@ namespace UnchurisApp.Controllers {
     public IUserService Users { get; private set; }
     public ISecurityService Security { get; private set; }
     public IUserProfileService Profiles { get; private set; }
+    public IResponse ResponseData { get; private set; }
 
     public AdvertisementControllerBase() {
       DataContext = new Context();
@@ -24,6 +25,7 @@ namespace UnchurisApp.Controllers {
       Security = new SecurityService(Users);
       CurrentUser = Security.GetCurrentUser();
       Profiles = new UserProfileService(DataContext);
+      ResponseData = new ResponseHelperJSON();
     }
 
     protected override void Dispose(bool disposing) {

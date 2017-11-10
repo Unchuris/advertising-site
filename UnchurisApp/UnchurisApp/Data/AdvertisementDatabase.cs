@@ -8,8 +8,7 @@ using UnchurisApp.Models;
 namespace UnchurisApp.Data {
   public class AdvertisementDatabase : DbContext {
 
-    public AdvertisementDatabase() : base("AdvertisementConnection") { }
-
+    public AdvertisementDatabase() : base("AdvertisementConnection") {}
     public DbSet<User> Users { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Advertisement> Advertisements { get; set; }

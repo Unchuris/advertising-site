@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="ClearScript, Version=5.4.9.0, Culture=neutral, PublicKeyToken=935d0c957da47c73, processorArchitecture=MSIL">
       <HintPath>..\packages\JavaScriptEngineSwitcher.V8.2.4.2\lib\net45\ClearScript.dll</HintPath>
     </Reference>
@@ -80,8 +83,8 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="React.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.Core.3.1.0\lib\net40\React.Core.dll</HintPath>
+    <Reference Include="React.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Core.3.2.0\lib\net40\React.Core.dll</HintPath>
     </Reference>
     <Reference Include="React.Web, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
       <HintPath>..\packages\React.Web.3.1.0\lib\net40\React.Web.dll</HintPath>
@@ -94,6 +97,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -115,6 +119,12 @@
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization.React, Version=3.2.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Optimization.React.3.2.0\lib\net40\System.Web.Optimization.React.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
@@ -141,6 +151,9 @@
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure">
@@ -149,11 +162,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="gulpfile.js" />
     <Content Include="less.js" />
+    <Content Include="readme.txt" />
+    <Content Include="Scripts\localization\translationsObject.jsx" />
+    <Content Include="Scripts\pages\test2\style.css" />
+    <Content Include="Scripts\pages\test2\Test2.jsx" />
+    <Content Include="Scripts\pages\test1\Test1.jsx" />
+    <Content Include="Scripts\pages\test1\style.css" />
+    <Content Include="Scripts\reducers\root-reducer.js" />
     <Content Include="Scripts\index.css" />
+    <Content Include="Scripts\stores\store.js" />
+    <Content Include="Scripts\utils\actionTypes.js" />
+    <Content Include="Scripts\utils\fetcher.js" />
+    <Content Include="Scripts\vendor\fonts.css" />
+    <Content Include="Scripts\vendor\normalize.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -184,6 +211,8 @@
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\UserProfileExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Response\IResponse.cs" />
+    <Compile Include="Response\ResponseHelperJSON.cs" />
     <Compile Include="Services\AdvertisementService.cs" />
     <Compile Include="Services\IAdvertisementService.cs" />
     <Compile Include="Services\ISecurityService.cs" />
@@ -205,6 +234,7 @@
     <Content Include="Views\web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="package.json" />
     <None Include="packages.config" />
     <Content Include="Views\Home\Profiles.cshtml" />
     <Content Include="Views\Home\Timeline.cshtml" />
@@ -224,6 +254,7 @@
     <Content Include="Views\Shared\_EditAdvertisement.cshtml" />
     <Content Include="Views\Advertisement\Index.cshtml" />
     <Content Include="Views\Shared\_AdvertisementAll.cshtml" />
+    <Content Include="reactServerConfig.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -238,7 +269,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\index.jsx" />
+    <Content Include="Scripts\index.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
