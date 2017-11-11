@@ -38,10 +38,7 @@ namespace UnchurisApp.Controllers {
 
     [HttpPost]
     public void Edit(Advertisement model, HttpPostedFileBase uploadImage) {
-      if (!Security.IsAuthenticated) {
-        return;
-      }
-      if (!ModelState.IsValid) {
+      if (!Security.IsAuthenticated || !ModelState.IsValid) {
         return;
       }
       if (uploadImage != null) {

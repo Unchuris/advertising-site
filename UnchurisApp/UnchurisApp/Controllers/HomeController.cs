@@ -18,8 +18,8 @@ namespace UnchurisApp.Controllers {
       if (Security.IsAuthenticated) {
         var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
         var result = new List<dynamic>();
-        dynamic rez = new ExpandoObject();
         foreach (var advertisement in advertisements) {
+          dynamic rez = new ExpandoObject();
           rez.Id = advertisement.Id;
           rez.Title = advertisement.Title;
           rez.Text = advertisement.Text;
@@ -35,8 +35,8 @@ namespace UnchurisApp.Controllers {
     public void Profiles() {
       var users = Users.All(true);
       var result = new List<dynamic>();
-      dynamic rez = new ExpandoObject();
       foreach (var user in users) {
+        dynamic rez = new ExpandoObject();
         rez.Id = user.Id;
         rez.ProfileName = user.Profile.Name;
         rez.Username = user.Username;
@@ -54,8 +54,8 @@ namespace UnchurisApp.Controllers {
         Advertisements.Search(s => s.Title.Contains(title) && s.Text.Contains(text) && s.Author.Profile.Name.Contains(author)).ToArray() :
         Advertisements.All(true).ToArray();
       var result = new List<dynamic>();
-      dynamic rez = new ExpandoObject();
       foreach (var advertisement in advertisements) {
+        dynamic rez = new ExpandoObject();
         rez.Id = advertisement.Id;
         rez.Title = advertisement.Title;
         rez.Text = advertisement.Text;
