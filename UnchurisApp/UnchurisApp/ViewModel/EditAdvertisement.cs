@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
+using UnchurisApp.Models;
 
 namespace UnchurisApp.ViewModel {
-  public class CreateAdvertisementViewModel {
+  public class EditAdvertisement {
+    public int Id { get; set; }
+
     [Required]
     [MaxLength(140, ErrorMessage = "Text cannot be more than 140 characters.")]
     public string Text { get; set; }

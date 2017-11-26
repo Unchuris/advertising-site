@@ -7,13 +7,13 @@ namespace UnchurisApp.Response {
   public class ResponseHelperJSON : IResponse {
     public void WriteTrue(HttpResponseBase response) {
       response.ContentType = "application/json";
-      response.Write(JsonConvert.SerializeObject(new { successful = true }));
+      response.Write(JsonConvert.SerializeObject(new { result = true }));
       response.End();
     }
 
     public void WriteFalse(HttpResponseBase response) {
       response.ContentType = "application/json";
-      response.Write(JsonConvert.SerializeObject(new { successful = false }));
+      response.Write(JsonConvert.SerializeObject(new { result = false }));
       response.End();
     }
 

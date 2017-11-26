@@ -74,7 +74,7 @@ namespace UnchurisApp.Data {
     }
 
     public T Find(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {
-      return DbSet.SingleOrDefault(predicate);
+      return DbSet.AsNoTracking().SingleOrDefault(predicate);
     }
 
     public IQueryable<T> FindAll(System.Linq.Expressions.Expression<Func<T, bool>> predicate) {

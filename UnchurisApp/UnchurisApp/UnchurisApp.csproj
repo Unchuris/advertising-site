@@ -196,6 +196,7 @@
     <Compile Include="Ui\AdvertisementViewPage.cs" />
     <Compile Include="ViewModel\BuddiesViewModel.cs" />
     <Compile Include="ViewModel\CreateAdvertisementViewModel.cs" />
+    <Compile Include="ViewModel\EditAdvertisement.cs" />
     <Compile Include="ViewModel\EditProfileViewModel.cs" />
     <Compile Include="ViewModel\LoginSignupViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -225,6 +226,7 @@
     <Content Include="Views\Shared\_EditAdvertisement.cshtml" />
     <Content Include="Views\Advertisement\Index.cshtml" />
     <Content Include="Views\Shared\_AdvertisementAll.cshtml" />
+    <None Include="Properties\PublishProfiles\UnchurisApp20171123111758 - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

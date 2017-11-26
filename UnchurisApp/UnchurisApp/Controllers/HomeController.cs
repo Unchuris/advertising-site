@@ -15,9 +15,9 @@ namespace UnchurisApp.Controllers {
     public HomeController() : base() { }
 
     public void Index() {
+      var result = new List<dynamic>();
       if (Security.IsAuthenticated) {
         var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
-        var result = new List<dynamic>();
         foreach (var advertisement in advertisements) {
           dynamic rez = new ExpandoObject();
           rez.Id = advertisement.Id;
@@ -28,8 +28,8 @@ namespace UnchurisApp.Controllers {
           rez.DateCreated = advertisement.DateCreated;
           result.Add(rez);
         }
-        ResponseData.WriteList(Response, "result", result);
       }
+      ResponseData.WriteList(Response, "result", result);
     }
 
     public void Profiles() {
@@ -48,10 +48,10 @@ namespace UnchurisApp.Controllers {
       ResponseData.WriteList(Response, "result", result);
     }
 
-    public void AdvertisementsAllUsers(string title, string text, string author) {
+    public void AdvertisementsAllUsers(string text) {
       Advertisement[] advertisements = null;
-      advertisements = !String.IsNullOrEmpty(title) || !String.IsNullOrEmpty(text) || !String.IsNullOrEmpty(author) ?
-        Advertisements.Search(s => s.Title.Contains(title) && s.Text.Contains(text) && s.Author.Profile.Name.Contains(author)).ToArray() :
+      advertisements = !String.IsNullOrEmpty(text)?
+        Advertisements.Search(s => s.Text.Contains(text)).ToArray() :
         Advertisements.All(true).ToArray();
       var result = new List<dynamic>();
       foreach (var advertisement in advertisements) {
@@ -68,21 +68,17 @@ namespace UnchurisApp.Controllers {
     }
 
     [HttpGet]
-    [ChildActionOnly]
+    //[ChildActionOnly]
     public ActionResult Create() {
       return PartialView("_CreateAdvertisementPartial", new CreateAdvertisementViewModel());
     }
 
     [HttpPost]
-    [ChildActionOnly]
+    //[ChildActionOnly]
     //[ValidateAntiForgeryToken]
-    public void Create(CreateAdvertisementViewModel model, HttpPostedFileBase uploadImage) {
-      if (ModelState.IsValid && uploadImage != null) {
-        byte[] imageData = null;
-        using (var binaryReader = new BinaryReader(uploadImage.InputStream)) {
-          imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
-        }
-        Advertisement advertisement = Advertisements.Create(Security.UserId, model.Text, model.Title, imageData);
+    public void Create(CreateAdvertisementViewModel model) {
+      if (ModelState.IsValid) {
+        Advertisement advertisement = Advertisements.Create(Security.UserId, model.Text, model.Title, Convert.FromBase64String(model.Image));
         dynamic rez = new ExpandoObject();
         rez.Id = advertisement.Id;
         rez.Title = advertisement.Title;

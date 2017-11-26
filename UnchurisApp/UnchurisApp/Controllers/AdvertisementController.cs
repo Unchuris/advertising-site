@@ -16,11 +16,13 @@ namespace UnchurisApp.Controllers {
       int ID = 0;
       bool isNum = int.TryParse(id, out ID);
       if (!Security.IsAuthenticated) {
+        ResponseData.WriteList(Response, "result", new List<dynamic> {});
         return;
       }
       var advertisement = Advertisements.GetItemByID(Security.UserId, ID);
 
       if (advertisement == null) {
+        ResponseData.WriteList(Response, "result", new List<dynamic> { });
         return;
       }
       dynamic rez = new ExpandoObject();
@@ -37,21 +39,21 @@ namespace UnchurisApp.Controllers {
     }
 
     [HttpPost]
-    public void Edit(Advertisement model, HttpPostedFileBase uploadImage) {
+    public void Edit(EditAdvertisement model) {
       if (!Security.IsAuthenticated || !ModelState.IsValid) {
+        ResponseData.WriteList(Response, "result", new List<dynamic> { });
         return;
       }
-      if (uploadImage != null) {
-        byte[] imageData = null;
-
-        using (var binaryReader = new BinaryReader(uploadImage.InputStream)) {
-          imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
-        }
-
-        model.Image = imageData;
-      }
-
-      var advertisement = Advertisements.Update(model);
+      Advertisement ad = Advertisements.GetItemByID(Security.UserId, model.Id);
+      Advertisement newAd = new Advertisement {
+        Id = model.Id,
+        Image = Convert.FromBase64String(model.Image),
+        Text = model.Title,
+        Title = model.Text,
+        DateCreated = ad.DateCreated,
+        AuthorId = ad.AuthorId
+      };
+      Advertisement advertisement = Advertisements.Update(newAd);
       dynamic rez = new ExpandoObject();
       rez.Id = advertisement.Id;
       rez.Title = advertisement.Title;
@@ -63,8 +65,6 @@ namespace UnchurisApp.Controllers {
           rez
         };
       ResponseData.WriteList(Response, "result", result);
-
-      throw new NotImplementedException();
     }
 
   }

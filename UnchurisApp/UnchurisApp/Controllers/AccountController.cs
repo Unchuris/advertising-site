@@ -8,63 +8,74 @@ using System.Web.Mvc;
 namespace UnchurisApp.Controllers {
   public class AccountController : AdvertisementControllerBase {
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult SignUp(LoginSignupViewModel model) {
-      if (Security.IsAuthenticated) {
-        return RedirectToAction("Index", "Home");
-      }
+    public void SignUp(LoginSignupViewModel model) {
+      //if (Security.IsAuthenticated) {
+      //  ResponseData.WriteFalse(Response);
+      //  return;
+      //}
 
       model.Login = new LoginViewModel();
 
       var signup = model.Signup;
 
       if (!ModelState.IsValid) {
-        return View("Landing", model);
+        ResponseData.WriteFalse(Response);
+        return;
       }
 
       if (Security.DoesUserExist(signup.Username)) {
         ModelState.AddModelError("Username", "Username is already taken.");
 
-        return View("Landing", model);
+        ResponseData.WriteFalse(Response);
+        return;
       }
 
       Security.CreateUser(signup);
 
-      return RedirectToAction("Index", "Home");
+      ResponseData.WriteTrue(Response);
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Login(LoginSignupViewModel model) {
-      if (Security.IsAuthenticated) {
-        return RedirectToAction("Index", "Home");
-      }
+    //[ValidateAntiForgeryToken]
+    public void Login(LoginSignupViewModel model) {
+      //if (Security.IsAuthenticated) {
+      //  Security.Logout();
+      //}
 
       model.Signup = new SignupViewModel();
 
       var login = model.Login;
 
       if (!ModelState.IsValid) {
-        return View("Landing", model);
+        ResponseData.WriteFalse(Response);
+        return;
       }
 
       if (!Security.Authenticate(login.Username, login.Password)) {
         ModelState.AddModelError("Username", "Username and/or password was incorrect.");
 
-        return View("Landing", model);
+        ResponseData.WriteFalse(Response);
+        return;
       }
 
       Security.Login(login.Username);
+      ResponseData.WriteTrue(Response);
+    }
 
-      return GoToReferrer();
+    public void Authenticated() {
+      if (Security.IsAuthenticated) { 
+        ResponseData.WriteTrue(Response);
+      } else {
+        ResponseData.WriteFalse(Response);
+      }
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Logout() {
+    //[ValidateAntiForgeryToken]
+    public void Logout() {
       Security.Logout();
 
-      return RedirectToAction("Index", "Home");
+      ResponseData.WriteTrue(Response);
     }
   }
 }
