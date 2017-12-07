@@ -29,14 +29,16 @@ namespace UnchurisApp.Controllers {
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    //[ValidateAntiForgeryToken]
     public void Edit(EditProfileViewModel model) {
-      if (!Security.IsAuthenticated || !ModelState.IsValid) return;
+      if (!Security.IsAuthenticated || !ModelState.IsValid) {
+        ResponseData.WriteFalse(Response);
+        return;
+      } 
       var result = new List<dynamic> {
           Profiles.Update(model)
       };
-      ResponseData.WriteList(Response, "result", result);
-      throw new NotImplementedException();
+      ResponseData.WriteTrue(Response);
     }
   }
 }

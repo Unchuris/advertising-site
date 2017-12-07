@@ -48,11 +48,16 @@ namespace UnchurisApp.Controllers {
       ResponseData.WriteList(Response, "result", result);
     }
 
-    public void AdvertisementsAllUsers(string text) {
+    public void AdvertisementsAllUsers(string text, string author) {
       Advertisement[] advertisements = null;
+      int ID = 0;
+      bool isNum = int.TryParse(author, out ID);
       advertisements = !String.IsNullOrEmpty(text)?
-        Advertisements.Search(s => s.Text.Contains(text)).ToArray() :
-        Advertisements.All(true).ToArray();
+       Advertisements.Search(s => s.Text.Contains(text)).ToArray() :
+       Advertisements.All(true).ToArray();
+      if (isNum) {
+        advertisements = Advertisements.Search(s => s.Text.Contains(text) && s.Id == ID).ToArray();
+      }
       var result = new List<dynamic>();
       foreach (var advertisement in advertisements) {
         dynamic rez = new ExpandoObject();
