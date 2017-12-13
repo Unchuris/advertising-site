@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.IO;
 using UnchurisApp.Models;
 using System.Dynamic;
+using UnchurisApp.Data;
 
 namespace UnchurisApp.Controllers {
 
@@ -14,22 +15,23 @@ namespace UnchurisApp.Controllers {
 
     public HomeController() : base() { }
 
-    public void Index() {
-      var result = new List<dynamic>();
-      if (Security.IsAuthenticated) {
-        var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
-        foreach (var advertisement in advertisements) {
-          dynamic rez = new ExpandoObject();
-          rez.Id = advertisement.Id;
-          rez.Title = advertisement.Title;
-          rez.Text = advertisement.Text;
-          rez.Author = advertisement.Author.Profile.Name;
-          rez.Image = Convert.ToBase64String(advertisement.Image);
-          rez.DateCreated = advertisement.DateCreated;
-          result.Add(rez);
-        }
-      }
-      ResponseData.WriteList(Response, "result", result);
+    public ActionResult Index() {
+      //var result = new List<dynamic>();
+      //if (Security.IsAuthenticated) {
+      //  var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
+      //  foreach (var advertisement in advertisements) {
+      //    dynamic rez = new ExpandoObject();
+      //    rez.Id = advertisement.Id;
+      //    rez.Title = advertisement.Title;
+      //    rez.Text = advertisement.Text;
+      //    rez.Author = advertisement.Author.Profile.Name;
+      //    rez.Image = Convert.ToBase64String(advertisement.Image);
+      //    rez.DateCreated = advertisement.DateCreated;
+      //    result.Add(rez);
+      //  }
+      //}
+      //ResponseData.WriteList(Response, "result", result);
+      return View("Timeline");
     }
 
     public void Profiles() {
@@ -49,14 +51,17 @@ namespace UnchurisApp.Controllers {
     }
 
     public void AdvertisementsAllUsers(string text, string author) {
+      AdvertisementDatabase adDB = new AdvertisementDatabase();
+      LuceneSearch.AddUpdateLuceneIndex(adDB.Advertisements.ToList());
       Advertisement[] advertisements = null;
       int ID = 0;
       bool isNum = int.TryParse(author, out ID);
       advertisements = !String.IsNullOrEmpty(text)?
-       Advertisements.Search(s => s.Text.Contains(text)).ToArray() :
-       Advertisements.All(true).ToArray();
+       LuceneSearch.Search(text, "Text").ToArray().ToArray() :
+       LuceneSearch.Search("*").ToArray();
       if (isNum) {
-        advertisements = Advertisements.Search(s => s.Text.Contains(text) && s.Id == ID).ToArray();
+        //advertisements = LuceneSearch.Search(text, "Text").ToArray();
+        Advertisements.Search(s => s.Text.Contains(text) && s.Id == ID).ToArray();
       }
       var result = new List<dynamic>();
       foreach (var advertisement in advertisements) {
@@ -64,7 +69,7 @@ namespace UnchurisApp.Controllers {
         rez.Id = advertisement.Id;
         rez.Title = advertisement.Title;
         rez.Text = advertisement.Text;
-        rez.Author = advertisement.Author.Profile.Name;
+        rez.Author = advertisement.Author.Username;
         rez.Image = Convert.ToBase64String(advertisement.Image);
         rez.DateCreated = advertisement.DateCreated;
         result.Add(rez);

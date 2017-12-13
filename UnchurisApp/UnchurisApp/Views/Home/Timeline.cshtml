@@ -4,17 +4,3 @@
   ViewBag.Title = "Timeline";
 }
 
-@section RightPanel {
-    @{ Html.RenderAction("Create");
-    }
-}
-
-@section LeftPanel {
-    @if (Model.Any()) {
-        foreach (var advertisement in Model) {
-        @Html.Partial("_AdvertisementPartial", advertisement);
-        }
-    } else {
-    <p>Quick! Post a Advertisement!</p>
-    }
-}
