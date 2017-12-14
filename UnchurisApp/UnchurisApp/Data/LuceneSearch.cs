@@ -137,8 +137,8 @@ namespace UnchurisApp.Controllers {
       return query;
     }
 
-    private static FuzzyQuery FparseQuery(string searchQuery) {
-      FuzzyQuery query = new FuzzyQuery(new Term("Text", searchQuery));
+    private static FuzzyQuery FparseQuery(string filed, string searchQuery) {
+      FuzzyQuery query = new FuzzyQuery(new Term(filed, searchQuery));
       return query;
     }
 
@@ -157,7 +157,7 @@ namespace UnchurisApp.Controllers {
         if (!string.IsNullOrEmpty(searchField)) {
           var parser = new QueryParser(Version.LUCENE_30, searchField, analyzer);
           var query = ParseQuery(searchQuery, parser);
-          query = FparseQuery(searchQuery);
+          query = FparseQuery(searchField, searchQuery);
           var hits = searcher.Search(query, hits_limit).ScoreDocs;
           var results = _mapLuceneToDataList(hits, searcher);
           analyzer.Close();
@@ -169,7 +169,7 @@ namespace UnchurisApp.Controllers {
           var parser = new MultiFieldQueryParser
               (Version.LUCENE_30, new[] { "Id", "Title", "Text", "Username", "DateCreated", "AuthorId", "Image" }, analyzer);
           var query = ParseQuery(searchQuery, parser);
-          query = FparseQuery(searchQuery);
+          query = FparseQuery(searchField, searchQuery);
           var hits = searcher.Search
           (query, null, hits_limit, Sort.RELEVANCE).ScoreDocs;
           var results = _mapLuceneToDataList(hits, searcher);
