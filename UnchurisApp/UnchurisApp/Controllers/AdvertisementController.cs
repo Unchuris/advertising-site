@@ -48,8 +48,8 @@ namespace UnchurisApp.Controllers {
       Advertisement newAd = new Advertisement {
         Id = model.Id,
         Image = Convert.FromBase64String(model.Image),
-        Text = model.Title,
-        Title = model.Text,
+        Title = model.Title,
+        Text = model.Text,
         DateCreated = ad.DateCreated,
         AuthorId = ad.AuthorId
       };

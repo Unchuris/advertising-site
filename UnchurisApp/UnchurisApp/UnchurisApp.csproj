@@ -151,13 +151,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Global.asax" />
-    <Content Include="less.js" />
     <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
     <None Include="index.cshtml" />
+    <Content Include="less.js" />
+    <Content Include="asset-manifest.json" />
     <Content Include="service-worker.js" />
-    <Content Include="static\css\main.fbce2121.css" />
-    <Content Include="static\js\main.9d6739b7.js" />
+    <Content Include="static\css\main.1630d744.css" />
+    <Content Include="static\js\main.3bfcf622.js" />
     <Content Include="static\media\1.b1e72747.jpg" />
     <Content Include="static\media\2.c82ab324.jpg" />
     <Content Include="static\media\3.788e661d.jpg" />
@@ -220,6 +221,7 @@
     <Content Include="Views\web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="manifest.json" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="style.less" />
@@ -227,14 +229,12 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\UnchurisApp20171123111758 - Web Deploy.pubxml" />
-    <Content Include="asset-manifest.json" />
-    <Content Include="manifest.json" />
-    <Content Include="static\css\main.fbce2121.css.map" />
-    <Content Include="static\js\main.9d6739b7.js.map" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="static\css\main.1630d744.css.map" />
+    <Content Include="static\js\main.3bfcf622.js.map" />
     <Content Include="static\media\slick.b7c9e1e4.woff" />
     <Content Include="static\media\slick.ced611da.eot" />
     <Content Include="static\media\slick.d41f55a7.ttf" />
-    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
