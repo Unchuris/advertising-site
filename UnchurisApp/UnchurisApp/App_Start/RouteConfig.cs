@@ -79,6 +79,12 @@ namespace UnchurisApp
       );
 
       routes.MapRoute(
+          name: "UserAdvertisements",
+          url: "api/userAdvertisements",
+          defaults: new { controller = "advertisement", action = "UserAdvertisements" }
+      );
+
+      routes.MapRoute(
           name: "Default",
           url: "",
           defaults: new { controller = "home", action = "index" }

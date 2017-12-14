@@ -16,22 +16,25 @@ namespace UnchurisApp.Controllers {
     public HomeController() : base() { }
 
     public ActionResult Index() {
-      //var result = new List<dynamic>();
-      //if (Security.IsAuthenticated) {
-      //  var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
-      //  foreach (var advertisement in advertisements) {
-      //    dynamic rez = new ExpandoObject();
-      //    rez.Id = advertisement.Id;
-      //    rez.Title = advertisement.Title;
-      //    rez.Text = advertisement.Text;
-      //    rez.Author = advertisement.Author.Profile.Name;
-      //    rez.Image = Convert.ToBase64String(advertisement.Image);
-      //    rez.DateCreated = advertisement.DateCreated;
-      //    result.Add(rez);
-      //  }
-      //}
-      //ResponseData.WriteList(Response, "result", result);
-      return View("Timeline");
+      return View();
+    }
+
+    public void UserAdvertisements() {
+      var result = new List<dynamic>();
+      if (Security.IsAuthenticated) {
+        var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
+        foreach (var advertisement in advertisements) {
+          dynamic rez = new ExpandoObject();
+          rez.Id = advertisement.Id;
+          rez.Title = advertisement.Title;
+          rez.Text = advertisement.Text;
+          rez.Author = advertisement.Author.Profile.Name;
+          rez.Image = Convert.ToBase64String(advertisement.Image);
+          rez.DateCreated = advertisement.DateCreated;
+          result.Add(rez);
+        }
+      }
+      ResponseData.WriteList(Response, "result", result);
     }
 
     public void Profiles() {
@@ -56,11 +59,12 @@ namespace UnchurisApp.Controllers {
       Advertisement[] advertisements = null;
       int ID = 0;
       bool isNum = int.TryParse(author, out ID);
-      advertisements = !String.IsNullOrEmpty(text)?
+      advertisements = !String.IsNullOrEmpty(text) ?
        LuceneSearch.Search(text, "Text").ToArray().ToArray() :
-       LuceneSearch.Search("*").ToArray();
+       Advertisements.All(true).ToArray();
       if (isNum) {
-        //advertisements = LuceneSearch.Search(text, "Text").ToArray();
+        advertisements = 
+          //LuceneSearch.Search(text, "Text").ToArray();
         Advertisements.Search(s => s.Text.Contains(text) && s.Id == ID).ToArray();
       }
       var result = new List<dynamic>();

@@ -221,24 +221,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="packages.config" />
-    <Content Include="Views\Home\Profiles.cshtml" />
-    <Content Include="Views\Home\Timeline.cshtml" />
-    <Content Include="Views\Profile\Index.cshtml" />
-    <Content Include="Views\Shared\_AdvertisementPartial.cshtml" />
-    <Content Include="Views\Shared\_CreateAdvertisementPartial.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\_UserPartial.cshtml" />
-    <Content Include="Views\Shared\_UserProfilePartial.cshtml" />
-    <Content Include="Views\Shared\Buddies.cshtml" />
-    <Content Include="Views\Shared\Landing.cshtml" />
-    <Content Include="Views\User\UserProfile.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="style.less" />
-    <Content Include="Views\Home\AdvertisementsAllUsers.cshtml" />
-    <Content Include="Views\Shared\_EditAdvertisement.cshtml" />
-    <Content Include="Views\Advertisement\Index.cshtml" />
-    <Content Include="Views\Shared\_AdvertisementAll.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -250,6 +234,7 @@
     <Content Include="static\media\slick.b7c9e1e4.woff" />
     <Content Include="static\media\slick.ced611da.eot" />
     <Content Include="static\media\slick.d41f55a7.ttf" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
