@@ -54,8 +54,6 @@ namespace UnchurisApp.Controllers {
     }
 
     public void AdvertisementsAllUsers(string text, string author) {
-      AdvertisementDatabase adDB = new AdvertisementDatabase();
-      LuceneSearch.AddUpdateLuceneIndex(adDB.Advertisements.ToList());
       Advertisement[] advertisements = null;
       int ID = 0;
       bool isNum = int.TryParse(author, out ID);
