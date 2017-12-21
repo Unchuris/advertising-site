@@ -8,6 +8,7 @@ using System.IO;
 using UnchurisApp.Models;
 using System.Dynamic;
 using UnchurisApp.Data;
+using UnchurisApp.Data.lucene;
 
 namespace UnchurisApp.Controllers {
 
@@ -22,13 +23,13 @@ namespace UnchurisApp.Controllers {
     public void UserAdvertisements() {
       var result = new List<dynamic>();
       if (Security.IsAuthenticated) {
-        var advertisements = Advertisements.GetTimelineFor(Security.UserId).ToArray();
+        var advertisements = AdvertisementSearch.GetByIndexRecords("AuthorId", Security.UserId.ToString()).ToArray();
         foreach (var advertisement in advertisements) {
           dynamic rez = new ExpandoObject();
           rez.Id = advertisement.Id;
           rez.Title = advertisement.Title;
           rez.Text = advertisement.Text;
-          rez.Author = advertisement.Author.Profile.Name;
+          rez.Author = advertisement.Author.Username;
           rez.Image = Convert.ToBase64String(advertisement.Image);
           rez.DateCreated = advertisement.DateCreated;
           result.Add(rez);
@@ -38,7 +39,7 @@ namespace UnchurisApp.Controllers {
     }
 
     public void Profiles() {
-      var users = Users.All(true);
+      var users = UserSearch.GetAllIndexRecords().ToArray();
       var result = new List<dynamic>();
       foreach (var user in users) {
         dynamic rez = new ExpandoObject();
@@ -58,12 +59,10 @@ namespace UnchurisApp.Controllers {
       int ID = 0;
       bool isNum = int.TryParse(author, out ID);
       advertisements = !String.IsNullOrEmpty(text) ?
-       LuceneSearch.Search(text, "Text").ToArray().ToArray() :
-       Advertisements.All(true).ToArray();
+       AdvertisementSearch.Search(text, "Text").ToArray():
+       AdvertisementSearch.GetAllIndexRecords().ToArray();
       if (isNum) {
-        advertisements = 
-          //LuceneSearch.Search(text, "Text").ToArray();
-        Advertisements.Search(s => s.Text.Contains(text) && s.Id == ID).ToArray();
+        advertisements = AdvertisementSearch.GetByIndexRecords("AuthorId", author).ToArray();
       }
       var result = new List<dynamic>();
       foreach (var advertisement in advertisements) {
@@ -101,6 +100,7 @@ namespace UnchurisApp.Controllers {
         var result = new List<dynamic> {
           rez
         };
+        AdvertisementSearch.AddUpdateLuceneIndex(advertisement);
         ResponseData.WriteList(Response, "result", result);
       }
     }

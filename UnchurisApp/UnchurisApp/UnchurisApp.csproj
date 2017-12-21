@@ -184,7 +184,7 @@
     <Compile Include="Controllers\AdvertisementController.cs" />
     <Compile Include="Controllers\AdvertisementControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Data\LuceneSearch.cs" />
+    <Compile Include="Data\lucene\AdvertisementSearch.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Data\AdvertisementDatabase.cs" />
@@ -196,6 +196,8 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IUserProfileRepository.cs" />
     <Compile Include="Data\IUserRepository.cs" />
+    <Compile Include="Data\lucene\UserProfileSearch.cs" />
+    <Compile Include="Data\lucene\UserSearch.cs" />
     <Compile Include="Data\UserProfileRepository.cs" />
     <Compile Include="Data\UserRepository.cs" />
     <Compile Include="Global.asax.cs">
@@ -253,7 +255,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="lucene_index\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

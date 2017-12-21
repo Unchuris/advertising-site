@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using UnchurisApp.Models;
 using System.Dynamic;
+using UnchurisApp.Data.lucene;
 
 namespace UnchurisApp.Controllers {
 
@@ -13,9 +14,7 @@ namespace UnchurisApp.Controllers {
 
     public void Index() {
       if (!Security.IsAuthenticated) return;
-    
-      var profile = Profiles.GetBy(CurrentUser.UserProfileId);
-
+      var profile = UserProfileSearch.GetByIndexRecords(CurrentUser.UserProfileId.ToString()).ToArray()[0];
       dynamic rez = new ExpandoObject();
       rez.Id = profile.Id;
       rez.Bio = profile.Bio;
@@ -35,9 +34,10 @@ namespace UnchurisApp.Controllers {
         ResponseData.WriteFalse(Response);
         return;
       } 
-      var result = new List<dynamic> {
+      var result = new List<UserProfile> {
           Profiles.Update(model)
       };
+      UserProfileSearch.AddUpdateLuceneIndex(result);
       ResponseData.WriteTrue(Response);
     }
   }

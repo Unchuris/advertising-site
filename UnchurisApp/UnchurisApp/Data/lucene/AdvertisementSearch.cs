@@ -9,14 +9,15 @@ using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
+using UnchurisApp.Data.lucene;
 using UnchurisApp.Models;
 using Version = Lucene.Net.Util.Version;
 
 namespace UnchurisApp.Controllers {
-  public class LuceneSearch {
-    private static string _luceneDir = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "lucene_index");
+  public class AdvertisementSearch {
+    public static string _luceneDir = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "lucene__index_advertisement");
     private static FSDirectory _directoryTemp;
-    private static FSDirectory _directory {
+    public static FSDirectory _directory {
       get {
         if (_directoryTemp == null) _directoryTemp = FSDirectory.Open(new DirectoryInfo(_luceneDir));
         if (IndexWriter.IsLocked(_directoryTemp)) IndexWriter.Unlock(_directoryTemp);
@@ -181,13 +182,57 @@ namespace UnchurisApp.Controllers {
     }
 
     public static List<Advertisement> Search(string input, string fieldName = "") {
-      if (string.IsNullOrEmpty(input)) return new List<Advertisement>();
+      if (string.IsNullOrEmpty(input)) {
+        return new List<Advertisement>();
+      }
 
       var terms = input.Trim().Replace("-", " ").Split(' ')
           .Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim() + "*");
       input = string.Join(" ", terms);
 
       return _search(input, fieldName);
+    }
+
+    public static List<Advertisement> GetByIndexRecords(string searchField, string searchQuery) {
+
+      // set up lucene searcher
+      using (var searcher = new IndexSearcher(_directory, false)) {
+        var hits_limit = 1000;
+        var analyzer = new StandardAnalyzer(Version.LUCENE_30);
+
+        // search by single field
+        var parser = new QueryParser(Version.LUCENE_30, searchField, analyzer);
+        var query = ParseQuery(searchQuery, parser);
+        var hits = searcher.Search(query, hits_limit).ScoreDocs;
+        var results = _mapLuceneToDataList(hits, searcher);
+        analyzer.Close();
+        searcher.Dispose();
+        return results;
+      }
+    }
+
+    public static List<Advertisement> GetByIndexRecords(string name1, int one, string name2, int two) {
+      // set up lucene searcher
+      using (var searcher = new IndexSearcher(_directory, false)) {
+        var hits_limit = 1000;
+        var analyzer = new StandardAnalyzer(Version.LUCENE_30);
+
+        // search by single field
+        var parser = new MultiFieldQueryParser
+             (Version.LUCENE_30, new[] { name1, name2}, analyzer);
+        Query query1 = new TermQuery(new Term(name1, one.ToString()));
+        Query query2 = new TermQuery(new Term(name2, two.ToString()));
+
+        BooleanQuery booleanQuery = new BooleanQuery();
+        booleanQuery.Add(query1, Occur.MUST);
+        booleanQuery.Add(query2, Occur.MUST);
+
+        var hits = searcher.Search(booleanQuery, hits_limit).ScoreDocs;
+        var results = _mapLuceneToDataList(hits, searcher);
+        analyzer.Close();
+        searcher.Dispose();
+        return results;
+      }
     }
 
     public static List<Advertisement> GetAllIndexRecords() {

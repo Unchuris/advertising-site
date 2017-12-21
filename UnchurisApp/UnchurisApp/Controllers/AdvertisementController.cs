@@ -19,8 +19,7 @@ namespace UnchurisApp.Controllers {
         ResponseData.WriteList(Response, "result", new List<dynamic> {});
         return;
       }
-      var advertisement = Advertisements.GetItemByID(Security.UserId, ID);
-
+      var advertisement = AdvertisementSearch.GetByIndexRecords("AuthorId", Security.UserId, "Id", ID).ToArray()[0];
       if (advertisement == null) {
         ResponseData.WriteList(Response, "result", new List<dynamic> { });
         return;
@@ -29,7 +28,7 @@ namespace UnchurisApp.Controllers {
       rez.Id = ID;
       rez.Title = advertisement.Title;
       rez.Text = advertisement.Text;
-      rez.Author = advertisement.Author.Profile.Name;
+      rez.Author = advertisement.Author.Username;
       rez.Image = Convert.ToBase64String(advertisement.Image);
       rez.DateCreated = advertisement.DateCreated;
       var result = new List<dynamic> {
@@ -44,7 +43,7 @@ namespace UnchurisApp.Controllers {
         ResponseData.WriteList(Response, "result", new List<dynamic> { });
         return;
       }
-      Advertisement ad = Advertisements.GetItemByID(Security.UserId, model.Id);
+      Advertisement ad = AdvertisementSearch.GetByIndexRecords("AuthorId", Security.UserId, "Id", model.Id).ToArray()[0];
       Advertisement newAd = new Advertisement {
         Id = model.Id,
         Image = Convert.FromBase64String(model.Image),
@@ -64,6 +63,7 @@ namespace UnchurisApp.Controllers {
       var result = new List<dynamic> {
           rez
         };
+      AdvertisementSearch.AddUpdateLuceneIndex(advertisement);
       ResponseData.WriteList(Response, "result", result);
     }
 
